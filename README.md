@@ -15,6 +15,12 @@ Requires GLFW installed on the system:
 ```bash
 # macOS
 brew install glfw
+
+# Windows (vcpkg)
+vcpkg install glfw3
+
+# Linux (apt)
+sudo apt install libglfw3-dev
 ```
 
 Consumer projects need `-lglfw` in their `cc-link-flags` (link flags do not propagate through dependencies).
@@ -89,9 +95,9 @@ fn main {
 
 | Platform | Status |
 |----------|--------|
-| macOS (ARM/x86) | Supported |
-| Windows | Not yet (C stub is Objective-C) |
-| Linux | Not yet (C stub is Objective-C) |
+| macOS (ARM/x86) | Supported (touch input via Cocoa) |
+| Windows | Supported (touch input: no-op) |
+| Linux | Supported (touch input: no-op) |
 
 ## License
 
