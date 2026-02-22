@@ -1,5 +1,9 @@
 {
   "name": "mizchi/glfw",
   "version": "0.1.0",
-  "source": "src"
+  "source": "src",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/mizchi/glfw-mbt",
+  "description": "GLFW MoonBit bindings (native FFI + C stub)",
+  "keywords": ["glfw", "native", "ffi", "window", "input"]
 }
