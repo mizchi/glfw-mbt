@@ -6,9 +6,7 @@ options(
       "cc-link-flags": "-L/usr/local/lib -L/opt/homebrew/lib -lglfw -Wl,-rpath,/usr/local/lib -Wl,-rpath,/opt/homebrew/lib -framework Cocoa -framework IOKit -framework CoreFoundation -framework QuartzCore",
     },
   },
-  "native-stub": ["glfw_stub.m"],
-  "supported-targets": ["native"],
-  targets: {
-    "glfw.mbt": ["native"],
-  },
+  "native-stub": [ "glfw_stub.m" ],
+  "supported-targets": [ "native" ],
+  targets: { "glfw.mbt": [ "native" ] },
 )
