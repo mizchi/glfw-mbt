@@ -41,3 +41,45 @@ jobs:
       - name: Run smoke test (headless)
         working-directory: examples/smoke_test
         run: xvfb-run -a ./_build/native/debug/build/smoke_test.exe
+
+  native-windows:
+    runs-on: windows-latest
+    env:
+      MOON_CC: clang
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hustcer/setup-moonbit@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install GLFW
+        run: vcpkg install glfw3:x64-windows
+      - name: Update MoonBit registry
+        run: moon update
+      - name: Check
+        run: moon check --target native
+      - name: Patch smoke test for Windows
+        working-directory: examples/smoke_test
+        shell: pwsh
+        run: |
+          @"
+          import {
+            "mizchi/glfw" @glfw,
+          }
+
+          options(
+            "is-main": true,
+            link: {
+              "native": {
+                "cc-flags": "-IC:/vcpkg/installed/x64-windows/include",
+                "cc-link-flags": "-LC:/vcpkg/installed/x64-windows/lib -lglfw3 -lgdi32 -luser32 -lshell32",
+              },
+            },
+            "supported-targets": [ "native" ],
+          )
+          "@ | Set-Content -Path src/moon.pkg
+      - name: Build smoke test
+        working-directory: examples/smoke_test
+        run: moon build src --target native
+      - name: Run smoke test
+        working-directory: examples/smoke_test
+        run: .\_build\native\debug\build\smoke_test.exe
