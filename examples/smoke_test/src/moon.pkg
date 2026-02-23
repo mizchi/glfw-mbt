@@ -6,6 +6,7 @@ options(
   "is-main": true,
   link: {
     "native": {
+      "cc": "clang",
       "cc-link-flags": "-lglfw",
     },
   },
