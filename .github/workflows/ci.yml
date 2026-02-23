@@ -78,6 +78,13 @@ jobs:
             "supported-targets": [ "native" ],
           )
           "@ | Set-Content -Path src/moon.pkg
+      - name: Create m.lib workaround
+        shell: pwsh
+        run: |
+          # MoonBit adds -lm but Windows has no m.lib (math is in UCRT)
+          "void __moonbit_m_stub(void){}" | Set-Content -Path m.c
+          clang -c m.c -o m.obj
+          llvm-lib /out:C:\vcpkg\installed\x64-windows\lib\m.lib m.obj /nologo
       - name: Build smoke test
         working-directory: examples/smoke_test
         run: moon build src --target native
