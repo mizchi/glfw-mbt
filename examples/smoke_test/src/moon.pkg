@@ -1,0 +1,13 @@
+import {
+  "mizchi/glfw" @glfw,
+}
+
+options(
+  "is-main": true,
+  link: {
+    "native": {
+      "cc-link-flags": "-lglfw",
+    },
+  },
+  "supported-targets": [ "native" ],
+)
