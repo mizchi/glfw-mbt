@@ -1,6 +1,6 @@
 {
   "name": "mizchi/glfw",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "source": "src",
   "readme": "README.md",
   "license": "Apache-2.0",
