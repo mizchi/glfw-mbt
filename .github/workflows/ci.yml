@@ -46,14 +46,14 @@ jobs:
     runs-on: windows-latest
     env:
       MOON_CC: clang
-      CPATH: C:\vcpkg\installed\x64-windows\include
+      CPATH: C:\vcpkg\installed\x64-windows-static\include
     steps:
       - uses: actions/checkout@v4
       - uses: hustcer/setup-moonbit@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install GLFW
-        run: vcpkg install glfw3:x64-windows
+        run: vcpkg install glfw3:x64-windows-static
       - name: Update MoonBit registry
         run: moon update
       - name: Check
@@ -71,20 +71,25 @@ jobs:
             "is-main": true,
             link: {
               "native": {
-                "cc-flags": "-IC:/vcpkg/installed/x64-windows/include",
-                "cc-link-flags": "-LC:/vcpkg/installed/x64-windows/lib -lglfw3 -lgdi32 -luser32 -lshell32",
+                "cc-flags": "-IC:/vcpkg/installed/x64-windows-static/include",
+                "cc-link-flags": "-LC:/vcpkg/installed/x64-windows-static/lib -lglfw3 -lgdi32 -luser32 -lshell32",
               },
             },
             "supported-targets": [ "native" ],
           )
           "@ | Set-Content -Path src/moon.pkg
+      - name: Verify GLFW library exists
+        shell: pwsh
+        run: |
+          Get-ChildItem C:\vcpkg\installed\x64-windows-static\lib\*glfw* | ForEach-Object { $_.FullName }
+          Get-ChildItem C:\vcpkg\installed\x64-windows-static\lib\*.lib | ForEach-Object { $_.FullName }
       - name: Create m.lib workaround
         shell: pwsh
         run: |
           # MoonBit adds -lm but Windows has no m.lib (math is in UCRT)
           "void __moonbit_m_stub(void){}" | Set-Content -Path m.c
           clang -c m.c -o m.obj
-          llvm-lib /out:C:\vcpkg\installed\x64-windows\lib\m.lib m.obj /nologo
+          llvm-lib /out:C:\vcpkg\installed\x64-windows-static\lib\m.lib m.obj /nologo
       - name: Build smoke test
         working-directory: examples/smoke_test
         run: moon build src --target native
