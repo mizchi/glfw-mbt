@@ -24,13 +24,13 @@ jobs:
 
   native-linux:
     runs-on: ubuntu-latest
+    env:
+      MOON_CC: clang
     steps:
       - uses: actions/checkout@v4
       - uses: hustcer/setup-moonbit@v1
-      - name: Install GLFW and set clang as cc
-        run: |
-          sudo apt-get update && sudo apt-get install -y libglfw3-dev xvfb
-          sudo ln -sf $(which clang) /usr/bin/cc
+      - name: Install GLFW
+        run: sudo apt-get update && sudo apt-get install -y libglfw3-dev xvfb
       - name: Update MoonBit registry
         run: moon update
       - name: Check
@@ -46,6 +46,7 @@ jobs:
     runs-on: windows-latest
     env:
       MOON_CC: clang
+      CPATH: C:\vcpkg\installed\x64-windows\include
     steps:
       - uses: actions/checkout@v4
       - uses: hustcer/setup-moonbit@v1
