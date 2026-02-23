@@ -96,8 +96,8 @@ fn main {
 | Platform | Status |
 |----------|--------|
 | macOS (ARM/x86) | Supported (touch input via Cocoa) |
-| Windows | Supported (touch input: no-op) |
-| Linux | Supported (touch input: no-op) |
+| Windows | Builds on CI, not yet tested at runtime (touch input: no-op) |
+| Linux | Builds on CI, not yet tested at runtime (touch input: no-op) |
 
 ## License
 
